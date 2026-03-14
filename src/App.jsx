@@ -15,38 +15,43 @@ function App() {
     setShowPayment(true);
   }
 
-async function getPrediction() {
+  async function getPrediction() {
 
-  setResult("🔮 Reading your bike destiny...");
+    setResult("🔮 Reading your bike destiny...");
 
-  try {
+    try {
 
-    const response = await fetch("/api/predict", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        name: name,
-        age: age
-      })
-    });
+      const response = await fetch("/api/predict", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: name,
+          age: age
+        })
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    console.log("API response:", data);
+      console.log("API response:", data);
 
-    setResult(data.prediction);
+      // Safe check
+      if (data && data.prediction) {
+        setResult(data.prediction);
+      } else {
+        setResult("Prediction failed. Please try again.");
+      }
 
-  } catch (error) {
+    } catch (error) {
 
-    console.error(error);
+      console.error("Fetch error:", error);
 
-    setResult("Prediction failed. Try again.");
+      setResult("Server error. Please try again.");
+
+    }
 
   }
-
-}
 
   return (
     <div style={{ textAlign: "center", marginTop: "80px" }}>
@@ -72,22 +77,28 @@ async function getPrediction() {
       <br />
       <br />
 
-      <button onClick={startPrediction}>Predict My Bike 🔮</button>
+      <button onClick={startPrediction}>
+        Predict My Bike 🔮
+      </button>
 
       {showPayment && (
         <div style={{ marginTop: "30px" }}>
           <h3>Pay ₹10 to unlock prediction</h3>
 
-          <img src="/upi_qr.png" width="200" />
+          <img src="/upi_qr.png" width="200" alt="UPI QR"/>
 
           <br />
           <br />
 
-          <button onClick={getPrediction}>I Paid</button>
+          <button onClick={getPrediction}>
+            I Paid
+          </button>
         </div>
       )}
 
-      <h2 style={{ marginTop: "40px", whiteSpace: "pre-line" }}>{result}</h2>
+      <h2 style={{ marginTop: "40px", whiteSpace: "pre-line" }}>
+        {result}
+      </h2>
     </div>
   );
 }
