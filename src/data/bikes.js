@@ -1,4 +1,4 @@
-const bikes = [
+export const bikes = [
 
 "Royal Enfield Classic 350",
 "Royal Enfield Bullet 350",
