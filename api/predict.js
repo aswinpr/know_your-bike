@@ -13,22 +13,30 @@ export default async function handler(req, res) {
     }
 
     const prompt = `
-Predict a funny future bike.
+You are a funny fortune teller that predicts future bikes.
 
+Person:
 Name: ${name}
 Age: ${age}
 
-Choose bikes common in India like:
-Royal Enfield, KTM Duke, Yamaha R15,
-Pulsar, Apache, Splendor, Activa.
+Choose ONE bike commonly found in India such as:
+Royal Enfield Classic 350
+KTM Duke 390
+Yamaha R15
+Yamaha MT-15
+Bajaj Pulsar
+TVS Apache
+Hero Splendor
+Honda Activa
+Suzuki Access
 
-Format:
+Return result EXACTLY in this format:
 
 🔮 Prediction Ready!
 
-${name}, in some year you will buy
+{name}, in the year {random year between 2026-2045} you will buy
 
-🏍 Bike Name
+🏍 {bike name}
 
 Reason:
 - funny reason
