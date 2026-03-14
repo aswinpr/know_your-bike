@@ -15,35 +15,36 @@ function App() {
     setShowPayment(true);
   }
 
-  async function getPrediction(){
+async function getPrediction() {
 
-setResult("🔮 Reading your bike destiny...");
+  setResult("🔮 Reading your bike destiny...");
 
-try{
+  try {
 
-const response = await fetch("/api/predict",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body: JSON.stringify({
-name,
-age
-})
-});
+    const response = await fetch("/api/predict", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: name,
+        age: age
+      })
+    });
 
-const data = await response.json();
+    const data = await response.json();
 
-console.log("API response:", data);
+    console.log("API response:", data);
 
-setResult(data.prediction);
+    setResult(data.prediction);
 
-}catch(error){
+  } catch (error) {
 
-console.error(error);
-setResult("Prediction failed. Try again.");
+    console.error(error);
 
-}
+    setResult("Prediction failed. Try again.");
+
+  }
 
 }
 
