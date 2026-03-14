@@ -18,7 +18,7 @@ Choose bikes common in India like:
 Royal Enfield, KTM Duke, Yamaha R15,
 Pulsar, Apache, Splendor, Activa.
 
-Format:
+Format exactly like this:
 
 🔮 Prediction Ready!
 
@@ -54,11 +54,19 @@ funny warning
 
     const data = await response.json();
 
-    res.status(200).json(data);
+    console.log("Gemini response:", data);
+
+    const prediction =
+      data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+      "Prediction failed. Try again.";
+
+    res.status(200).json({
+      prediction
+    });
 
   } catch (error) {
 
-    console.error(error);
+    console.error("API error:", error);
 
     res.status(500).json({
       error: "Server error"
