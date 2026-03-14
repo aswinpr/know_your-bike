@@ -15,30 +15,37 @@ function App() {
     setShowPayment(true);
   }
 
-  async function getPrediction() {
-    setResult("🔮 Reading your bike destiny...");
+  async function getPrediction(){
 
-    try {
-      const response = await fetch("/api/predict", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          age,
-        }),
-      });
+setResult("🔮 Reading your bike destiny...");
 
-      const data = await response.json();
+try{
 
-      setResult(data.prediction);
+const response = await fetch("/api/predict",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body: JSON.stringify({
+name,
+age
+})
+});
 
-      setResult(prediction);
-    } catch (err) {
-      setResult("Error generating prediction.");
-    }
-  }
+const data = await response.json();
+
+console.log("API response:", data);
+
+setResult(data.prediction);
+
+}catch(error){
+
+console.error(error);
+setResult("Prediction failed. Try again.");
+
+}
+
+}
 
   return (
     <div style={{ textAlign: "center", marginTop: "80px" }}>
