@@ -13,24 +13,25 @@ export default async function handler(req, res) {
     }
 
     const prompt = `
-You are a funny fortune teller that predicts which bike someone will buy.
+You are a funny bike fortune teller.
 
 Person details:
 Name: ${name}
 Age: ${age}
 
-The bike chosen for this prediction is:
+The selected bike is:
 
 ${bike}
 
-IMPORTANT RULE:
-You MUST use the EXACT bike name "${bike}".
-Do NOT modify the bike name.
-Do NOT invent new bikes.
+STRICT RULES:
+1. You MUST use the exact bike name: "${bike}"
+2. Do NOT change or invent a new bike name.
+3. Do NOT add extra words to the bike name.
+4. The entire response must be in MALAYALAM language.
 
 Choose a random year between 2026 and 2045.
 
-Return the result in MALAYALAM language using EXACTLY this format:
+Return EXACTLY in this format:
 
 🔮 പ്രവചനം തയ്യാറായി!
 
@@ -39,14 +40,14 @@ ${name}, നിങ്ങൾ ഈ ബൈക്ക് വാങ്ങുക ഈ വ
 🏍 ${bike}
 
 കാരണം:
-- രസകരമായ കാരണം
-- രസകരമായ കാരണം
-- രസകരമായ കാരണം
+- ഒരു രസകരമായ കാരണം
+- ഒരു രസകരമായ കാരണം
+- ഒരു രസകരമായ കാരണം
 
 മുന്നറിയിപ്പ്:
-പെട്രോൾ വില, EMI, അല്ലെങ്കിൽ സുഹൃത്തുകൾ റൈഡ് ചോദിക്കുന്നത് സംബന്ധിച്ച ഒരു രസകരമായ മുന്നറിയിപ്പ്.
+ഒരു രസകരമായ മുന്നറിയിപ്പ്.
 
-Keep the response short and funny.
+Do not change the format.
 `;
 
     const response = await fetch(
@@ -54,16 +55,16 @@ Keep the response short and funny.
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           contents: [
             {
-              parts: [{ text: prompt }]
-            }
-          ]
-        })
-      }
+              parts: [{ text: prompt }],
+            },
+          ],
+        }),
+      },
     );
 
     const data = await response.json();
@@ -77,7 +78,6 @@ Keep the response short and funny.
     res.status(200).json({
       prediction,
     });
-
   } catch (error) {
     console.error(error);
 
