@@ -1,16 +1,14 @@
 export default async function handler(req, res) {
-
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Only POST allowed" });
   }
 
   try {
-
     const { name, age } = req.body || {};
 
     if (!name) {
       return res.status(400).json({
-        error: "Name is required"
+        error: "Name is required",
       });
     }
 
@@ -42,20 +40,20 @@ funny warning
 `;
 
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash-002:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           contents: [
             {
-              parts: [{ text: prompt }]
-            }
-          ]
-        })
-      }
+              parts: [{ text: prompt }],
+            },
+          ],
+        }),
+      },
     );
 
     const data = await response.json();
@@ -67,17 +65,13 @@ funny warning
       "Prediction failed. Try again.";
 
     res.status(200).json({
-      prediction
+      prediction,
     });
-
   } catch (error) {
-
     console.error(error);
 
     res.status(500).json({
-      error: "Server error"
+      error: "Server error",
     });
-
   }
-
 }
