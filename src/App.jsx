@@ -4,13 +4,13 @@ function App() {
 
 const [name,setName] = useState("");
 const [age,setAge] = useState("");
-const [result,setResult] = useState("");
 const [showPayment,setShowPayment] = useState(false);
+const [result,setResult] = useState("");
 
 function startPrediction(){
 
 if(!name){
-alert("Enter your name");
+alert("Please enter your name");
 return;
 }
 
@@ -22,12 +22,14 @@ async function getPrediction(){
 
 setResult("🔮 Reading your bike destiny...");
 
+try{
+
 const response = await fetch("/api/predict",{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
 },
-body:JSON.stringify({
+body: JSON.stringify({
 name,
 age
 })
@@ -39,15 +41,22 @@ const prediction = data.candidates[0].content.parts[0].text;
 
 setResult(prediction);
 
+}catch(err){
+
+setResult("Error generating prediction.");
+
 }
 
-return (
+}
 
-<div style={{textAlign:"center",marginTop:"100px"}}>
+return(
+
+<div style={{textAlign:"center",marginTop:"80px"}}>
 
 <h1>🔮 Future Bike Predictor</h1>
 
 <input
+type="text"
 placeholder="Enter your name"
 value={name}
 onChange={(e)=>setName(e.target.value)}
@@ -56,6 +65,7 @@ onChange={(e)=>setName(e.target.value)}
 <br/><br/>
 
 <input
+type="number"
 placeholder="Age (optional)"
 value={age}
 onChange={(e)=>setAge(e.target.value)}
@@ -69,11 +79,11 @@ Predict My Bike 🔮
 
 {showPayment && (
 
-<div style={{marginTop:"20px"}}>
+<div style={{marginTop:"30px"}}>
 
-<h3>Pay ₹10 to view your bike</h3>
+<h3>Pay ₹10 to unlock prediction</h3>
 
-<img src="/upi_qr.jpg" width="200"/>
+<img src="/upi_qr.png" width="200"/>
 
 <br/><br/>
 
@@ -85,13 +95,13 @@ I Paid
 
 )}
 
-<h2 style={{whiteSpace:"pre-line"}}>
+<h2 style={{marginTop:"40px",whiteSpace:"pre-line"}}>
 {result}
 </h2>
 
 </div>
 
-);
+)
 
 }
 
