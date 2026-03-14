@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, age } = req.body || {};
+    const { name, age, bike } = req.body || {};
 
     if (!name) {
       return res.status(400).json({
@@ -13,38 +13,35 @@ export default async function handler(req, res) {
     }
 
     const prompt = `
-You are a funny fortune teller that predicts future bikes.
+You are a funny fortune teller that predicts which bike someone will buy.
 
-Person:
+Person details:
 Name: ${name}
 Age: ${age}
 
-Choose ONE bike commonly found in India such as:
-Royal Enfield Classic 350
-KTM Duke 390
-Yamaha R15
-Yamaha MT-15
-Bajaj Pulsar
-TVS Apache
-Hero Splendor
-Honda Activa
-Suzuki Access
+This person will buy the following bike:
 
-Return result EXACTLY in this format:
+${bike}
 
-🔮 Prediction Ready!
 
-{name}, in the year {random year between 2026-2045} you will buy
+
+Choose a random year between 2026 and 2045.
+
+Return the result in MALAYALAM language using this format:
+
+🔮 പ്രവചനം തയ്യാറായി!
+
+${name}, നിങ്ങൾ ഈ ബൈക്ക് വാങ്ങുക ഈ വർഷത്തിൽ {year}
 
 🏍 {bike name}
 
-Reason:
-- funny reason
-- funny reason
-- funny reason
+കാരണം:
+- രസകരമായ കാരണം
+- രസകരമായ കാരണം
+- രസകരമായ കാരണം
 
-Warning:
-funny warning
+മുന്നറിയിപ്പ്:
+പെട്രോൾ വില, EMI, അല്ലെങ്കിൽ സുഹൃത്തുകൾ റൈഡ് ചോദിക്കുന്നത് സംബന്ധിച്ച ഒരു രസകരമായ മുന്നറിയിപ്പ്.
 `;
 
     const response = await fetch(

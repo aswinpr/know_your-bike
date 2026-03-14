@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { bikes } from "./data/bikes";
 
 function App() {
   const [name, setName] = useState("");
@@ -19,6 +20,9 @@ function App() {
 
     setResult("🔮 Reading your bike destiny...");
 
+    // Pick a random bike
+    const randomBike = bikes[Math.floor(Math.random() * bikes.length)];
+
     try {
 
       const response = await fetch("/api/predict", {
@@ -28,7 +32,8 @@ function App() {
         },
         body: JSON.stringify({
           name: name,
-          age: age
+          age: age,
+          bike: randomBike
         })
       });
 
@@ -36,7 +41,6 @@ function App() {
 
       console.log("API response:", data);
 
-      // Safe check
       if (data && data.prediction) {
         setResult(data.prediction);
       } else {
